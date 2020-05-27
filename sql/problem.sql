@@ -1,0 +1,1 @@
+create table problem (id integer primary key , statement text not null, type text not null, answers text not null);
