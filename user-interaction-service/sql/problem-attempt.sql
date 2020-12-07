@@ -1,0 +1,1 @@
+create table attempt (id integer primary key, problem INTEGER REFERENCES problem(id), person INTEGER REFERENCES person(id), user_input_type VARCHAR(255), user_input VARCHAR(255) );
