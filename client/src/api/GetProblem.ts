@@ -9,3 +9,8 @@ export const getAllProblems = () => {
         '/content'
     )
 }
+
+
+export const getProblemById = (id: string) => {
+    return axios.get<Problem>(`/problem/${id}`)
+}
