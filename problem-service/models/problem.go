@@ -4,6 +4,7 @@ import "github.com/beevik/guid"
 
 type Problem struct {
 	ID        string `json:"id"`
+	State     string `json:"state"`
 	Version   int    `json:"version"`
 	Statement string `json:"statement"`
 	Type      string `json:"type"`
@@ -20,7 +21,7 @@ func GetAllProblems() ([]*Problem, error) {
 	probs := make([]*Problem, 0)
 	for rows.Next() {
 		prob := new(Problem)
-		err := rows.Scan(&prob.ID, &prob.Version, &prob.Statement, &prob.Type, &prob.Answers)
+		err := rows.Scan(&prob.ID, &prob.State, &prob.Version, &prob.Statement, &prob.Type, &prob.Answers)
 		if err != nil {
 			return nil, err
 		}
@@ -53,7 +54,7 @@ func GetProblem(id string) (*Problem, error) {
 
 	prob := Problem{}
 
-	err := row.Scan(&prob.ID, &prob.Version, &prob.Statement, &prob.Type, &prob.Answers)
+	err := row.Scan(&prob.ID, &prob.State, &prob.Version, &prob.Statement, &prob.Type, &prob.Answers)
 	if err != nil {
 		return nil, err
 	}
