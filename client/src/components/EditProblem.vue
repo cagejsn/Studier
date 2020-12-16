@@ -1,23 +1,16 @@
 <template>
+  <v-card>
+    <edit-statement></edit-statement>
 
-    <div>
-        <edit-statement></edit-statement>
-
-        <edit-answers></edit-answers>
-
-    </div>
-
-
+    <edit-answers></edit-answers>
+  </v-card>
 </template>
 <script lang="ts">
-
 import Vue from "vue";
-import {getProblemById} from '../api/GetProblem'
+import { getProblemById } from "../api/GetProblem";
 
-import EditStatement from './EditProblem/EditStatement.vue';
-import EditAnswers from './EditProblem/EditAnswers.vue';
-
-
+import EditStatement from "./EditProblem/EditStatement.vue";
+import EditAnswers from "./EditProblem/EditAnswers.vue";
 
 export default Vue.extend({
   computed: {
@@ -30,21 +23,20 @@ export default Vue.extend({
     problem: {}
   }),
 
-  async created(){
-    getProblemById(this.id).then(problem => this.problem = problem)
-    
+  async created() {
+    getProblemById(this.id).then(problem => (this.problem = problem));
   },
 
-  methods: {
-    
-
-    
-  },
+  methods: {},
 
   components: {
-      EditStatement,
-      EditAnswers
+    EditStatement,
+    EditAnswers
   }
-  
 });
 </script>
+<style scoped>
+    .v-card {
+        margin: 10px;
+    }
+</style>

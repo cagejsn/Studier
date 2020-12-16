@@ -5,13 +5,13 @@ Vue.use(VueRouter);
 
 const routes: Array<RouteConfig> = [
   {
-    name: 'Problem',
+    name: "Problem",
     path: "/problem/:id",
     component: () =>
       import(/* webpackChunkName: "problem" */ "../components/Problem.vue")
   },
   {
-    name: 'AllProblems',
+    name: "AllProblems",
     path: "/",
     component: () =>
       import(
