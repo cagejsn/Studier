@@ -28,6 +28,9 @@ export default Vue.extend({
   },
   methods: {
     createNewProblem() {
+
+      this.$store.
+
       createProblem().then((response: AxiosResponse<Problem>) => {
         const id = response.data.id;
         this.$router.push({ name: "Problem", params: { id } });

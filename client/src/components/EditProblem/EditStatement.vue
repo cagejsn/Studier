@@ -1,7 +1,7 @@
 <template>
   <div>
       Problem Statement
-    <v-tabs v-model="value" color="primary" slider-color="primary">
+    <v-tabs v-model="value" >
       <v-tab>
         Text Problem
       </v-tab>

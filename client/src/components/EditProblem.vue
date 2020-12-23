@@ -1,5 +1,5 @@
 <template>
-  <v-card>
+  <v-card color="green" >
     <edit-statement></edit-statement>
 
     <edit-answers></edit-answers>

@@ -2,7 +2,7 @@
   <div>
       Answers
 
-    <v-tabs v-model="value" color="primary" slider-color="primary">
+    <v-tabs v-model="value">
       <v-tab>
         Multiple Choice
       </v-tab>
@@ -15,20 +15,24 @@
     </v-tabs>
     <v-tabs-items v-model="value">
       <v-tab-item>
-        <edit-text-statement-tab></edit-text-statement-tab>
+        <edit-multiple-choice-answer-tab></edit-multiple-choice-answer-tab>
       </v-tab-item>
       <v-tab-item>
-        <edit-image-statement-tab></edit-image-statement-tab>
+        <edit-text-entry-answer-tab></edit-text-entry-answer-tab>
       </v-tab-item>
 
       <v-tab-item>
-        <edit-sound-statement-tab></edit-sound-statement-tab>
+        <edit-true-false-answer-tab></edit-true-false-answer-tab>
       </v-tab-item>
     </v-tabs-items>
   </div>
 </template>
 <script lang="ts">
 import Vue from "vue";
+
+import EditMultipleChoiceAnswerTab from './EditTabs/EditMultipleChoiceAnswerTab.vue'
+import EditTrueFalseAnswerTab from './EditTabs/EditTrueFalseAnswerTab.vue';
+import EditTextEntryAnswerTab from './EditTabs/EditTextEntryAnswerTab.vue';
 
 export default Vue.extend({
   computed: {},
@@ -38,6 +42,11 @@ export default Vue.extend({
 
   }),
 
-  methods: {}
+  methods: {},
+  components:{
+      EditMultipleChoiceAnswerTab,
+      EditTrueFalseAnswerTab,
+      EditTextEntryAnswerTab
+  }
 });
 </script>
