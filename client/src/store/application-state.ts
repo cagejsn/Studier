@@ -2,11 +2,11 @@ import { Problem } from '@/models/Problem';
 
 
 interface ApplicationState {
-    problemBeingViewed?: Problem
+    openProblem?: Problem
 }
 
 
 
 export const initialState: ApplicationState = {
-    problemBeingViewed: undefined
+    openProblem: undefined
 }

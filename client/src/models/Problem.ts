@@ -9,14 +9,32 @@ export interface Problem {
   version: number;
   statement: string;
   type: ProblemType;
-  answers: string;
+  answers: TextEntryAnswer | MultipleChoiceAnswerCandidates | TrueFalseAnswer;
 }
 
 export interface ProblemType {
   statementType: StatementType;
-  answerType: AnswerType;
+  answersType: AnswersType;
 }
 
-export enum StatementType {}
+export enum StatementType {
+  TEXT,
+  IMAGE,
+  SOUND
+}
 
-export enum AnswerType {}
+export enum AnswersType {
+  MULTIPLE_CHOICE,
+  TEXT_ENTRY,
+  TRUE_FALSE
+}
+
+
+export interface MultipleChoiceAnswerCandidates {
+  [letter: string]: string
+}
+
+type TrueFalseAnswer = boolean
+
+
+type TextEntryAnswer = string

@@ -1,8 +1,8 @@
 <template>
   <div>
-      Answers
+    Answers
 
-    <v-tabs v-model="value">
+    <v-tabs v-model="answersType">
       <v-tab>
         Multiple Choice
       </v-tab>
@@ -13,14 +13,13 @@
         True/False
       </v-tab>
     </v-tabs>
-    <v-tabs-items v-model="value">
+    <v-tabs-items v-model="answersType">
       <v-tab-item>
         <edit-multiple-choice-answer-tab></edit-multiple-choice-answer-tab>
       </v-tab-item>
       <v-tab-item>
         <edit-text-entry-answer-tab></edit-text-entry-answer-tab>
       </v-tab-item>
-
       <v-tab-item>
         <edit-true-false-answer-tab></edit-true-false-answer-tab>
       </v-tab-item>
@@ -30,23 +29,29 @@
 <script lang="ts">
 import Vue from "vue";
 
-import EditMultipleChoiceAnswerTab from './EditTabs/EditMultipleChoiceAnswerTab.vue'
-import EditTrueFalseAnswerTab from './EditTabs/EditTrueFalseAnswerTab.vue';
-import EditTextEntryAnswerTab from './EditTabs/EditTextEntryAnswerTab.vue';
+import EditMultipleChoiceAnswerTab from "./EditTabs/EditMultipleChoiceAnswerTab.vue";
+import EditTrueFalseAnswerTab from "./EditTabs/EditTrueFalseAnswerTab.vue";
+import EditTextEntryAnswerTab from "./EditTabs/EditTextEntryAnswerTab.vue";
 
 export default Vue.extend({
-  computed: {},
+  computed: {
+    answersType: {
+      get(): number {
+        return this.$store.state.openProblem.type.answersType;
+      },
+      set(value) {
+        this.$store.commit("setProblemAnswersType", value);
+      }
+    }
+  },
 
-  data: () => ({
-      value: 0,
-
-  }),
+  data: () => ({}),
 
   methods: {},
-  components:{
-      EditMultipleChoiceAnswerTab,
-      EditTrueFalseAnswerTab,
-      EditTextEntryAnswerTab
+  components: {
+    EditMultipleChoiceAnswerTab,
+    EditTrueFalseAnswerTab,
+    EditTextEntryAnswerTab
   }
 });
 </script>
