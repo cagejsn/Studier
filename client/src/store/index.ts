@@ -3,12 +3,22 @@ import Vuex from 'vuex'
 
 import { initialState } from "./application-state"
 
+import {updateProblem} from "@/api/UpdateProblem"
+
 Vue.use(Vuex)
 
 const store = new Vuex.Store({
     state: initialState,
     actions: {
-        
+        updateAnswers({commit}, answers){
+            commit('setProblemAnswers', answers)
+
+        },
+        saveProblem({commit}){
+            console.log("saving problem", this.state.openProblem)
+            updateProblem(this.state.openProblem!)
+            
+        }
 
     },
     mutations: {
@@ -31,6 +41,10 @@ const store = new Vuex.Store({
         },
         setProblemAnswersType(state, value){
             state.openProblem!.type.answersType = value;
+        },
+        setProblemAnswers(state, value){
+            console.log("setting answers to ", value)
+            state.openProblem!.answers = value
         }
 
     },
@@ -43,6 +57,9 @@ const store = new Vuex.Store({
             // } else {
                 // return {};
             // };
+        },
+        getAnswers(state){
+            return state.openProblem?.answers
         }
 
     }

@@ -1,5 +1,6 @@
 <template>
   <v-card color="green">
+    <v-btn @click="saveProblem">save</v-btn>
     <edit-statement :problem="problem"></edit-statement>
 
     <edit-answers :problem="problem"></edit-answers>
@@ -25,7 +26,12 @@ export default Vue.extend({
 
   data: () => ({}),
 
-  methods: {},
+  methods: {
+
+    saveProblem(){
+      this.$store.dispatch('saveProblem')
+    }
+  },
 
   components: {
     EditStatement,

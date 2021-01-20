@@ -34,7 +34,7 @@ func main() {
 		log.Print(err)
 		v, _ := json.Marshal(problem)
 		io.WriteString(w, string(v))
-	})
+	}).Methods("POST")
 
 	r.HandleFunc("/problem/{id}", func(w http.ResponseWriter, r *http.Request) {
 
@@ -48,7 +48,34 @@ func main() {
 
 		v, _ := json.Marshal(problem)
 		io.WriteString(w, string(v))
-	})
+	}).Methods("GET")
+
+	r.HandleFunc("/problem", func(w http.ResponseWriter, r *http.Request) {
+
+		var p models.ProblemUpdate
+
+		// Try to decode the request body into the struct. If there is an error,
+		// respond to the client with the error message and a 400 status code.
+		err := json.NewDecoder(r.Body).Decode(&p)
+		if err != nil {
+			log.Fatal("bad request", err)
+			io.WriteString(w, "BAD REQUEST")
+		}
+
+		log.Println(p)
+		err = models.UpdateProblem(&p)
+		if err != nil {
+			log.Panic(err)
+		}
+
+		enableCors(&w)
+		io.WriteString(w, "OK")
+	}).Methods("PUT")
+
+	r.HandleFunc("/problem", func(w http.ResponseWriter, r *http.Request) {
+		enableCors(&w)
+		io.WriteString(w, "OK")
+	}).Methods("OPTIONS")
 
 	startServerTLS(r)
 }
@@ -56,9 +83,9 @@ func main() {
 func enableCors(w *http.ResponseWriter) {
 	(*w).Header().Set("Access-Control-Allow-Origin", "http://localhost:8080")
 	// (*w).Header().Set("Access-Control-Allow-Origin", "*")
-
+	(*w).Header().Set("Access-Control-Allow-Methods", "*")
 	(*w).Header().Set("Access-Control-Allow-Credentials", "true")
-	(*w).Header().Set("Access-Control-Allow-Headers", "Authorization")
+	(*w).Header().Set("Access-Control-Allow-Headers", "*")
 
 }
 
