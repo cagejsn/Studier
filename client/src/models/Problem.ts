@@ -10,6 +10,7 @@ export interface Problem {
   statement: string;
   type: ProblemType;
   answers: TextEntryAnswer | MultipleChoiceAnswerCandidates | TrueFalseAnswer;
+  solution: any;
 }
 
 export interface ProblemType {
@@ -20,13 +21,13 @@ export interface ProblemType {
 export enum StatementType {
   TEXT,
   IMAGE,
-  SOUND
+  AUDIO
 }
 
 export enum AnswersType {
-  MULTIPLE_CHOICE,
-  TEXT_ENTRY,
-  TRUE_FALSE
+  MULTIPLE_CHOICE = "MULTIPLE_CHOICE",
+  TEXT_ENTRY = "TEXT_ENTRY",
+  TRUE_FALSE = "TRUE_FALSE"
 }
 
 

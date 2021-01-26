@@ -9,21 +9,13 @@ import (
 )
 
 type Problem struct {
-	ID        string `json:"id"`
-	State     string `json:"state"`
-	Version   int    `json:"version"`
-	Statement string `json:"statement"`
-	Type      string `json:"type"`
-	Answers   string `json:"answers"`
-}
-
-type ProblemUpdate struct {
-	ID        string          `json:"id"`
-	State     string          `json:"state"`
-	Version   int             `json:"version"`
-	Statement string          `json:"statement"`
-	Type      json.RawMessage `json:"type"`
-	Answers   json.RawMessage `json:"answers"`
+	ID        string           `json:"id"`
+	State     string           `json:"state"`
+	Version   int              `json:"version"`
+	Statement string           `json:"statement"`
+	Type      *json.RawMessage `json:"type"`
+	Answers   *json.RawMessage `json:"answers"`
+	Solution  *json.RawMessage `json:"solution"`
 }
 
 func GetAllProblems() ([]*Problem, error) {
@@ -35,12 +27,16 @@ func GetAllProblems() ([]*Problem, error) {
 
 	probs := make([]*Problem, 0)
 	for rows.Next() {
-		prob := new(Problem)
-		err := rows.Scan(&prob.ID, &prob.State, &prob.Version, &prob.Statement, &prob.Type, &prob.Answers)
+		prob := Problem{
+			Type:     (*json.RawMessage)(new([]byte)),
+			Answers:  (*json.RawMessage)(new([]byte)),
+			Solution: (*json.RawMessage)(new([]byte)),
+		}
+		err := rows.Scan(&prob.ID, &prob.State, &prob.Version, &prob.Statement, (*[]byte)(prob.Type), (*[]byte)(prob.Answers), (*[]byte)(prob.Solution))
 		if err != nil {
 			return nil, err
 		}
-		probs = append(probs, prob)
+		probs = append(probs, &prob)
 	}
 	if err = rows.Err(); err != nil {
 		return nil, err
@@ -67,9 +63,13 @@ func CreateProblem(problem *Problem) (*Problem, error) {
 func GetProblem(id string) (*Problem, error) {
 	row := db.QueryRow("SELECT * FROM problem where id = $1", id)
 
-	prob := Problem{}
+	prob := Problem{
+		Type:     (*json.RawMessage)(new([]byte)),
+		Answers:  (*json.RawMessage)(new([]byte)),
+		Solution: (*json.RawMessage)(new([]byte)),
+	}
 
-	err := row.Scan(&prob.ID, &prob.State, &prob.Version, &prob.Statement, &prob.Type, &prob.Answers)
+	err := row.Scan(&prob.ID, &prob.State, &prob.Version, &prob.Statement, (*[]byte)(prob.Type), (*[]byte)(prob.Answers), (*[]byte)(prob.Solution))
 	if err != nil {
 		return nil, err
 	}
@@ -77,7 +77,7 @@ func GetProblem(id string) (*Problem, error) {
 	return &prob, nil
 }
 
-func UpdateProblem(problem *ProblemUpdate) error {
+func UpdateProblem(problem *Problem) error {
 
 	// tx, _ := db.Begin()
 	// stmt, _ := tx.Prepare("UPDATE problem SET state = ?, statement = ? WHERE id = ?")
@@ -85,8 +85,8 @@ func UpdateProblem(problem *ProblemUpdate) error {
 	// // checkError(err)
 	// tx.Commit()
 
-	sqlStatement := `UPDATE problem SET state = ?, statement = ?, type = ?, answers = ? WHERE id = ?`
-	result, err := db.Exec(sqlStatement, problem.State, problem.Statement, problem.Type, problem.Answers, problem.ID)
+	sqlStatement := `UPDATE problem SET state = ?, statement = ?, type = ?, answers = ?, solution = ? WHERE id = ?`
+	result, err := db.Exec(sqlStatement, problem.State, problem.Statement, problem.Type, problem.Answers, problem.Solution, problem.ID)
 	if err != nil {
 		return err
 	}

@@ -33,21 +33,35 @@ import EditMultipleChoiceAnswerTab from "./EditTabs/EditMultipleChoiceAnswerTab.
 import EditTrueFalseAnswerTab from "./EditTabs/EditTrueFalseAnswerTab.vue";
 import EditTextEntryAnswerTab from "./EditTabs/EditTextEntryAnswerTab.vue";
 
+import {AnswersType} from '@/models/Problem'
+
 export default Vue.extend({
-  computed: {
-    answersType: {
-      get(): number {
-        return this.$store.state.openProblem.type.answersType;
-      },
-      set(value) {
-        this.$store.commit("setProblemAnswersType", value);
-      }
+  data: () => ({
+    AnswersType,
+    answersType: AnswersType.MULTIPLE_CHOICE,
+  }),
+  // computed: {
+  //   answersType: {
+  //     get(): AnswersType {
+  //       return this.$store.state.openProblem.type.answersType;
+  //     },
+  //     set(value) {
+  //       this.$store.commit("setProblemAnswersType", value);
+  //     }
+  //   }
+  // },
+
+
+
+  watch: {
+    answersType(newVal, oldVal){
+      this.$store.commit("setProblemAnswersType", newVal);
     }
   },
+  created() {
+    this.answersType = this.$store.getters["getOpenProblem"].type.answersType
+  },
 
-  data: () => ({}),
-
-  methods: {},
   components: {
     EditMultipleChoiceAnswerTab,
     EditTrueFalseAnswerTab,

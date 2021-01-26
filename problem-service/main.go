@@ -46,13 +46,18 @@ func main() {
 			log.Panic(err)
 		}
 
-		v, _ := json.Marshal(problem)
+		log.Println(problem)
+		v, err := json.Marshal(problem)
+		if err != nil {
+			log.Panic(err)
+		}
+
 		io.WriteString(w, string(v))
 	}).Methods("GET")
 
 	r.HandleFunc("/problem", func(w http.ResponseWriter, r *http.Request) {
 
-		var p models.ProblemUpdate
+		var p models.Problem
 
 		// Try to decode the request body into the struct. If there is an error,
 		// respond to the client with the error message and a 400 status code.
@@ -72,6 +77,8 @@ func main() {
 		io.WriteString(w, "OK")
 	}).Methods("PUT")
 
+	// the only reason for this options request is that the PUT request seems to do a pre-flight OPTIONS on google chrome
+	// and if the CORS doesn't add up on the PREFLIGHT then it will never execute the PUT
 	r.HandleFunc("/problem", func(w http.ResponseWriter, r *http.Request) {
 		enableCors(&w)
 		io.WriteString(w, "OK")

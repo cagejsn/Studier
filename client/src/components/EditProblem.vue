@@ -1,9 +1,15 @@
 <template>
   <v-card color="green">
-    <v-btn @click="saveProblem">save</v-btn>
-    <edit-statement :problem="problem"></edit-statement>
+    <v-toolbar>
+      <v-toolbar-items>
+        <v-btn @click="saveProblem">save</v-btn>
+        <v-switch :label="problemState" :input-value="isProblemActive" @change="problemStateChanged"></v-switch>
+      </v-toolbar-items>
+    </v-toolbar>
 
-    <edit-answers :problem="problem"></edit-answers>
+    <edit-statement></edit-statement>
+
+    <edit-answers></edit-answers>
   </v-card>
 </template>
 <script lang="ts">
@@ -21,15 +27,27 @@ export default Vue.extend({
     },
     problem() {
       return this.$store.state.openProblem;
+    },
+    problemState(){
+      return this.$store.getters["getProblemState"]
+    },
+    isProblemActive() {
+      return this.$store.getters["getProblemState"] === "ACTIVED";
     }
   },
 
   data: () => ({}),
 
   methods: {
-
-    saveProblem(){
-      this.$store.dispatch('saveProblem')
+    saveProblem() {
+      this.$store.dispatch("saveProblem");
+    },
+    problemStateChanged(value: boolean) {
+      if(value){
+        this.$store.dispatch('updateProblemState', 'ACTIVED')
+      } else {
+        this.$store.dispatch('updateProblemState', 'DRAFT')
+      }
     }
   },
 

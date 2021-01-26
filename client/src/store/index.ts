@@ -15,9 +15,15 @@ const store = new Vuex.Store({
 
         },
         saveProblem({commit}){
-            console.log("saving problem", this.state.openProblem)
             updateProblem(this.state.openProblem!)
             
+        },
+        updateSolution({commit}, solution){
+            commit('setProblemSolution', solution)
+
+        },
+        updateProblemState({commit}, newState){
+            commit('setProblemState', newState)
         }
 
     },
@@ -43,8 +49,13 @@ const store = new Vuex.Store({
             state.openProblem!.type.answersType = value;
         },
         setProblemAnswers(state, value){
-            console.log("setting answers to ", value)
             state.openProblem!.answers = value
+        },
+        setProblemSolution(state, value){
+            state.openProblem!.solution = value
+        },
+        setProblemState(state, value){
+            state.openProblem!.state = value
         }
 
     },
@@ -60,6 +71,12 @@ const store = new Vuex.Store({
         },
         getAnswers(state){
             return state.openProblem?.answers
+        },
+        getSolution(state){
+            return state.openProblem?.solution
+        },
+        getProblemState(state){
+            return state.openProblem?.state
         }
 
     }
