@@ -1,1 +1,0 @@
-create table person (id INTEGER primary key, email varchar(255));

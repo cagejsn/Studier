@@ -1,0 +1,1 @@
+create table person (id CHAR(36) primary key, email varchar(255));

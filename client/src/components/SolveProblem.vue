@@ -1,17 +1,29 @@
 <template>
-  <v-card color="green">
-    <statement></statement>
+  <v-sheet>
+    <v-main>
+      <v-card>
+        <statement></statement>
 
-    <answers></answers>
-  </v-card>
+        <answers></answers>
+      </v-card>
+      <v-card>
+        <v-toolbar dense flat>
+          <v-spacer></v-spacer>
+          <v-toolbar-items>
+            <v-btn text @click="submitProblem">submit</v-btn>
+          </v-toolbar-items>
+        </v-toolbar>
+      </v-card>
+    </v-main>
+  </v-sheet>
 </template>
 <script lang="ts">
 import Vue from "vue";
-import { getProblemById } from "../api/GetProblem";
 
 import Statement from "./SolveProblem/Statement.vue";
 import Answers from "./SolveProblem/Answers.vue";
-import { Problem } from "../models/Problem";
+import {saveProblemAttempt, getProblemAttemptById, updateProblemAttempt} from '@/api/ProblemAttempt/ProblemAttempt'
+import { ProblemAttemptResponse } from '@/models/UserInteraction';
 
 export default Vue.extend({
   computed: {
@@ -26,6 +38,13 @@ export default Vue.extend({
   data: () => ({}),
 
   methods: {
+    submitProblem() {
+      console.log("submit problem");
+
+      //TODO: put this in the proper place
+      saveProblemAttempt()
+      .then( (data) => console.log(data))
+    }
   },
 
   components: {

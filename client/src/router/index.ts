@@ -8,7 +8,23 @@ const routes: Array<RouteConfig> = [
     name: "Problem",
     path: "/problem/:id",
     component: () =>
-      import(/* webpackChunkName: "problem" */ "../components/Problem.vue")
+      import(/* webpackChunkName: "problem" */ "../components/Problem.vue"),
+    children: [{
+      name: "EditProblem",
+      // EditProblem will be rendered inside Problem's <router-view>
+      // when /problem/:id/edit is matched
+      path: 'edit',
+      component: () =>
+        import(/* webpackChunkName: "edit-problem" */ "../components/EditProblem.vue"),
+    },
+    {
+      name: "SolveProblem",
+      // SolveProblem will be rendered inside Problem's <router-view>
+      // when /problem/:id/solve is matched
+      path: 'solve',
+      component: () =>
+        import(/* webpackChunkName: "solve-problem" */ "../components/SolveProblem.vue")
+    }]
   },
   {
     name: "AllProblems",

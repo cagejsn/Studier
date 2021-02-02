@@ -1,1 +1,1 @@
-create table attempt (id integer primary key, problem INTEGER REFERENCES problem(id), person INTEGER REFERENCES person(id), user_input_type VARCHAR(255), user_input VARCHAR(255) );
+create table problem_attempt (id CHAR(36) primary key, problem_id CHAR(36), person CHAR(36) REFERENCES person(id), user_input text DEFAULT '""' not null, submission_state text default 'PENDING_SUBMISSION', submission_outcome text default '""' not null);

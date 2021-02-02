@@ -2,7 +2,7 @@
   <div>
     <h1 @click="createNewProblem">Create a New Problem</h1>
     <p v-for="prob in problems" :key="prob.id">
-      <router-link :to="{ name: 'Problem', params: { id: prob.id } }">
+      <router-link :to="{ name: 'SolveProblem', params: { id: prob.id } }">
         {{ prob }}
       </router-link>
     </p>
@@ -33,7 +33,7 @@ export default Vue.extend({
 
       createProblem().then((response: AxiosResponse<Problem>) => {
         const id = response.data.id;
-        this.$router.push({ name: "Problem", params: { id } });
+        this.$router.push({ name: "EditProblem", params: { id } });
       });
     }
   }

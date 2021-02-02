@@ -77,6 +77,9 @@ const store = new Vuex.Store({
         },
         getProblemState(state){
             return state.openProblem?.state
+        },
+        getProblemVersion(state){
+            return state.openProblem?.version
         }
 
     }
