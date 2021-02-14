@@ -2,7 +2,6 @@ package main
 
 import (
 	"encoding/json"
-	"fmt"
 	"io"
 	"log"
 	"net/http"
@@ -21,19 +20,19 @@ func main() {
 	r := mux.NewRouter()
 
 	r.HandleFunc("/problem-attempt", func(w http.ResponseWriter, r *http.Request) {
-		enableCors(&w)
-		problemAttempt, err := models.SaveProblemAttempt(&models.ProblemAttempt{})
-		log.Print(err)
-		v, _ := json.Marshal(problemAttempt)
-		io.WriteString(w, string(v))
-	}).Methods("POST")
 
-	r.HandleFunc("/problem-attempt/{id}", func(w http.ResponseWriter, r *http.Request) {
+		var pA models.ProblemAttempt
 
-		vars := mux.Vars(r)
-		id := vars["id"]
+		// Try to decode the request body into the struct. If there is an error,
+		// respond to the client with the error message and a 400 status code.
+		err := json.NewDecoder(r.Body).Decode(&pA)
+		if err != nil {
+			io.WriteString(w, "BAD REQUEST")
+			log.Panic("bad request", err)
+		}
+
 		enableCors(&w)
-		problemAttempt, err := models.GetProblemAttempt(id)
+		problemAttempt, err := models.SaveProblemAttempt(&pA)
 		if err != nil {
 			log.Panic(err)
 		}
@@ -43,6 +42,27 @@ func main() {
 			log.Panic(err)
 		}
 
+		io.WriteString(w, string(v))
+	}).Methods("POST")
+
+	r.HandleFunc("/problem-attempt/{id}", func(w http.ResponseWriter, r *http.Request) {
+
+		vars := mux.Vars(r)
+		id := vars["id"]
+
+		problemAttempt, err := models.GetProblemAttempt(id)
+		if err != nil {
+			io.WriteString(w, "INTERNAL SERVER ERROR")
+			log.Panic(err)
+		}
+
+		v, err := json.Marshal(problemAttempt)
+		if err != nil {
+			io.WriteString(w, "INTERNAL SERVER ERROR")
+			log.Panic(err)
+		}
+
+		enableCors(&w)
 		io.WriteString(w, string(v))
 	}).Methods("GET")
 
@@ -58,13 +78,19 @@ func main() {
 			io.WriteString(w, "BAD REQUEST")
 		}
 
-		err = models.UpdateProblemAttempt(&pA)
+		retrievedProblemAttempt, err := models.UpdateProblemAttempt(&pA)
 		if err != nil {
 			log.Panic(err)
 		}
 
+		v, err := json.Marshal(retrievedProblemAttempt)
+		if err != nil {
+			io.WriteString(w, "INTERNAL SERVER ERROR")
+			log.Panic(err)
+		}
+
 		enableCors(&w)
-		io.WriteString(w, "OK")
+		io.WriteString(w, string(v))
 	}).Methods("PUT")
 
 	// the only reason for this options request is that the PUT request seems to do a pre-flight OPTIONS on google chrome
@@ -73,6 +99,30 @@ func main() {
 		enableCors(&w)
 		io.WriteString(w, "OK")
 	}).Methods("OPTIONS")
+
+	r.HandleFunc("/bulk-problem-attempt", func(w http.ResponseWriter, r *http.Request) {
+
+		var pA []models.ProblemAttempt
+
+		// Try to decode the request body into the struct. If there is an error,
+		// respond to the client with the error message and a 400 status code.
+		err := json.NewDecoder(r.Body).Decode(&pA)
+		if err != nil {
+			io.WriteString(w, "BAD REQUEST")
+			log.Panic("bad request", err)
+		}
+
+		for i, problem := range pA {
+			log.Print(problem, i)
+
+		}
+		problemAttempt, err := models.SaveProblemAttempt(&models.ProblemAttempt{})
+		log.Print(err)
+		v, _ := json.Marshal(problemAttempt)
+
+		enableCors(&w)
+		io.WriteString(w, string(v))
+	}).Methods("POST")
 
 	startServerTLS(r)
 }
@@ -96,18 +146,6 @@ func startServerTLS(r *mux.Router) {
 			log.Fatal("Error: Couldn't create https certs.")
 		}
 	}
-
-	fmt.Print("about to serve")
-
-	// srv := &http.Server{
-	// 	Handler: r,
-	// 	Addr:    "localhost:8091",
-	// 	// Good practice: enforce timeouts for servers you create!
-	// 	WriteTimeout: 15 * time.Second,
-	// 	ReadTimeout:  15 * time.Second,
-	// }
-
-	// log.Fatal(srv.ListenAndServe())
 
 	http.ListenAndServeTLS(":8091", "cert.pem", "key.pem", r)
 }

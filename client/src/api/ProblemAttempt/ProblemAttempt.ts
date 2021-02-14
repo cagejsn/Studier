@@ -1,16 +1,20 @@
 import Axios from "axios";
-import { ProblemAttempt, ProblemAttemptResponse} from '@/models/UserInteraction'
+import { ProblemAttemptv1, ProblemAttemptResponsev1} from '@/models/ProblemAttempt'
 
 const axios = Axios.create({ baseURL: "https://localhost:8091" });
 
-export const saveProblemAttempt = () => {
-  return axios.post<ProblemAttemptResponse>("/problem-attempt");
+export const createProblemAttempt = (problemId: string) => {
+  return axios.post<ProblemAttemptResponsev1>("/problem-attempt", {problemId});
 };
 
 export const getProblemAttemptById = (id: string) => {
-  return axios.get<ProblemAttemptResponse>(`/problem-attempt/${id}`);
+  return axios.get<ProblemAttemptResponsev1>(`/problem-attempt/${id}`);
 };
 
-export const updateProblemAttempt = (problemAttempt: ProblemAttempt) => {
-  return axios.put<ProblemAttemptResponse>("/problem-attempt", problemAttempt);
+export const updateProblemAttempt = (problemAttempt: ProblemAttemptv1) => {
+  return axios.put<ProblemAttemptResponsev1>("/problem-attempt", problemAttempt);
 };
+
+// export const bulkSaveProblemAttempt = (problemAttempts: [problemId: string]) => {
+//   return axios.post<BulkProblemAttemptResponse>("/bulk-problem-attempt", problemAttempts)
+// }

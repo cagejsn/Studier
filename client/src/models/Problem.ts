@@ -10,12 +10,13 @@ export interface Problem {
   statement: string;
   type: ProblemType;
   answers: TextEntryAnswer | MultipleChoiceAnswerCandidates | TrueFalseAnswer;
-  solution: any;
+  solution: ProblemSolution;
 }
 
 export interface ProblemType {
   statementType: StatementType;
   answersType: AnswersType;
+  solutionType: SolutionType;
 }
 
 export enum StatementType {
@@ -30,6 +31,15 @@ export enum AnswersType {
   TRUE_FALSE = "TRUE_FALSE"
 }
 
+export enum SolutionType {
+  NO_EXPLANATION = "NO_EXPLANATION",
+  TEXT_EXPLANATION = "TEXT_EXPLANATION",
+}
+
+export interface ProblemSolution {
+  solution: any,
+  explanation?: string
+}
 
 export interface MultipleChoiceAnswerCandidates {
   [letter: string]: string

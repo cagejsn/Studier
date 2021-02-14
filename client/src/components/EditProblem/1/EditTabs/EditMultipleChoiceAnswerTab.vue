@@ -39,7 +39,7 @@
 <script lang="ts">
 import Vue from "vue";
 
-import { MultipleChoiceAnswerCandidates } from "../../../models/Problem";
+import { MultipleChoiceAnswerCandidates } from "@/models/Problem";
 
 export default Vue.extend({
   data: () => ({

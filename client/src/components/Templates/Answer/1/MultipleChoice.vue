@@ -1,11 +1,11 @@
 <template>
   <v-container>
     <v-row>
-      <v-col class="d-flex flex-column" :cols="1">
+      <v-col class="d-flex flex-column" :cols="2">
         <v-radio-group
           hide-details="true"
           class="radio-group"
-          v-model="correctAnswer"
+          v-model="selectedAnswer"
         >
           <v-radio
             class=" radio-item"
@@ -23,16 +23,16 @@
             <h1 style="text-align: center">{{ answerEntry[0] }}</h1>
           </v-col>
 
-          <v-col :cols="11">
-            <v-text-field readonly v-model="answers[answerEntry[0]]"> </v-text-field
+          <v-col :cols="10">
+            <v-text-field readonly v-model="answers[answerEntry[0]]">
+            </v-text-field
           ></v-col>
         </v-row>
       </v-col>
-      <v-col class="d-flex flex-column" :cols="1">
+      <!-- <v-col class="d-flex flex-column" :cols="1">
         <div></div>
-      </v-col>
+      </v-col> -->
     </v-row>
-
   </v-container>
 </template>
 <script lang="ts">
@@ -42,19 +42,23 @@ import { MultipleChoiceAnswerCandidates } from "@/models/Problem";
 
 export default Vue.extend({
   data: () => ({
-    correctAnswer: "",
-  
+    selectedAnswer: ""
   }),
 
   computed: {
+    answers() {
+      return this.$store.getters["getAnswers"];
+    },
     answersEntries() {
       return Object.entries(this.answers);
-    },
-    answers(){
-        return this.$store.getters["getAnswers"]
     }
   },
 
+  watch: {
+    selectedAnswer() {
+      this.$emit("user-selected-answer", this.selectedAnswer);
+    }
+  }
 });
 </script>
 <style scoped>

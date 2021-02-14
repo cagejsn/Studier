@@ -15,6 +15,7 @@
       <v-card v-if="problemVersion == 1">
         <edit-statement></edit-statement>
         <edit-answers></edit-answers>
+        <edit-solution></edit-solution>
       </v-card>
     </v-content>
   </v-sheet>
@@ -26,6 +27,7 @@ import { getProblemById } from "../api/GetProblem";
 import EditStatement from "./EditProblem/1/EditStatement.vue";
 import EditAnswers from "./EditProblem/1/EditAnswers.vue";
 import { Problem } from "../models/Problem";
+import EditSolution from './EditProblem/1/EditSolution.vue';
 
 export default Vue.extend({
   computed: {
@@ -63,7 +65,8 @@ export default Vue.extend({
 
   components: {
     EditStatement,
-    EditAnswers
+    EditAnswers,
+    EditSolution
   }
 });
 </script>

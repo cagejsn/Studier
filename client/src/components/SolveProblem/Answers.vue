@@ -1,5 +1,5 @@
 <template>
-  <component v-bind:is="answersComponent"></component>
+  <component @user-selected-answer="userSelectedAnswer" v-bind:is="answersComponent"></component>
 </template>
 <script lang="ts">
 import Vue from "vue";
@@ -16,6 +16,12 @@ export default Vue.extend({
       return Object.values(AnswersType)[answersType] + "_" + this.$store.state.openProblem.version;
     },
 
+  },
+
+  methods:{
+    userSelectedAnswer(payload: any){
+      this.$emit('user-selected-answer', payload)
+    }
   },
 
   // is there a way to ...expand the object of the v1Templates and reduce the amount of code?
