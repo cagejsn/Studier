@@ -31,7 +31,6 @@ import Vue from "vue";
 import EditImageStatementTab from "./EditTabs/EditImageStatementTab.vue";
 import EditTextStatementTab from "./EditTabs/EditTextStatementTab.vue";
 import EditSoundStatementTab from "./EditTabs/EditSoundStatementTab.vue";
-import { Problem } from "../../models/Problem";
 
 export default Vue.extend({
   computed: {

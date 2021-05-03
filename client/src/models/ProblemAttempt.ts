@@ -49,7 +49,8 @@ export interface GradeResponsev1 {
     problemAttemptId: string,
     version: number, // default to 1
     gradeType: GradeType, // Human Graded, Auto Graded,
-    outcome: HumanGradedOutcomev1 | ComputerGradedOutcomev1, // some object that depending on the 
+    outcome?: HumanGradedOutcomev1 | ComputerGradedOutcomev1, // some object that depending on the 
+    submissionState: GradeSubmissionState
 }
 
 export enum GradeType {
@@ -68,6 +69,10 @@ export interface ComputerGradedOutcomev1 {
     mark: string,
 }
 
+export enum GradeSubmissionState {
+    PENDING_SUBMISSION = "PENDING_SUBMISSION",
+    GRADED_SUBMITTED = "GRADED_SUBMITTED"
+}
 
 // export interface BulkProblemAttemptRequestv1 {
     

@@ -7,7 +7,7 @@ import (
 	"log"
 	"net/http"
 
-	"./models"
+	"github.com/cagejsn/Studier/problem-service/models"
 	_ "github.com/go-sql-driver/mysql"
 	"github.com/gorilla/mux"
 	"github.com/kabukky/httpscerts"

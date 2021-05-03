@@ -6,7 +6,8 @@ import (
 	"log"
 	"net/http"
 
-	"./models"
+	"github.com/cagejsn/Studier/user-interaction-service/models"
+
 	_ "github.com/go-sql-driver/mysql"
 	"github.com/gorilla/mux"
 	"github.com/kabukky/httpscerts"
@@ -123,6 +124,113 @@ func main() {
 		enableCors(&w)
 		io.WriteString(w, string(v))
 	}).Methods("POST")
+
+	r.HandleFunc("/grade", func(w http.ResponseWriter, r *http.Request) {
+
+		var g models.Grade
+
+		// Try to decode the request body into the struct. If there is an error,
+		// respond to the client with the error message and a 400 status code.
+		err := json.NewDecoder(r.Body).Decode(&g)
+		if err != nil {
+			io.WriteString(w, "BAD REQUEST")
+			log.Panic("bad request", err)
+		}
+
+		enableCors(&w)
+		grade, err := models.SaveGrade(&g)
+		if err != nil {
+			log.Panic(err)
+		}
+
+		v, err := json.Marshal(grade)
+		if err != nil {
+			log.Panic(err)
+		}
+
+		io.WriteString(w, string(v))
+	}).Methods("POST")
+
+	r.HandleFunc("/grade/{id}", func(w http.ResponseWriter, r *http.Request) {
+
+		vars := mux.Vars(r)
+		id := vars["id"]
+
+		grade, err := models.GetGrade(id)
+		if err != nil {
+			io.WriteString(w, "INTERNAL SERVER ERROR")
+			log.Panic(err)
+		}
+
+		v, err := json.Marshal(grade)
+		if err != nil {
+			io.WriteString(w, "INTERNAL SERVER ERROR")
+			log.Panic(err)
+		}
+
+		enableCors(&w)
+		io.WriteString(w, string(v))
+	}).Methods("GET")
+
+	r.HandleFunc("/grade", func(w http.ResponseWriter, r *http.Request) {
+
+		//TODO build this with gorilla
+		queryParams := r.URL.Query()
+		problemAttemptID := queryParams.Get("problemAttemptId")
+		log.Print("found problemAttemptId", problemAttemptID)
+		if problemAttemptID == "" {
+			log.Panic("No problem attempt Id ")
+		}
+
+		grade, err := models.GetGrade(problemAttemptID)
+		if err != nil {
+			io.WriteString(w, "INTERNAL SERVER ERROR")
+			log.Panic(err)
+		}
+
+		v, err := json.Marshal(grade)
+		if err != nil {
+			io.WriteString(w, "INTERNAL SERVER ERROR")
+			log.Panic(err)
+		}
+
+		enableCors(&w)
+		io.WriteString(w, string(v))
+	}).Methods("GET")
+
+	r.HandleFunc("/grade", func(w http.ResponseWriter, r *http.Request) {
+
+		var g models.Grade
+
+		// Try to decode the request body into the struct. If there is an error,
+		// respond to the client with the error message and a 400 status code.
+		err := json.NewDecoder(r.Body).Decode(&g)
+		if err != nil {
+			log.Fatal("bad request", err)
+			io.WriteString(w, "BAD REQUEST")
+		}
+
+		retrievedGrade, err := models.UpdateGrade(&g)
+		if err != nil {
+			log.Panic(err)
+		}
+
+		v, err := json.Marshal(retrievedGrade)
+		if err != nil {
+			io.WriteString(w, "INTERNAL SERVER ERROR")
+			log.Panic(err)
+		}
+
+		enableCors(&w)
+		io.WriteString(w, string(v))
+	}).Methods("PUT")
+
+	// the only reason for this options request is that the PUT request seems to do a pre-flight OPTIONS on google chrome
+	// and if the CORS doesn't add up on the PREFLIGHT then it will never execute the PUT
+	r.HandleFunc("/grade", func(w http.ResponseWriter, r *http.Request) {
+		enableCors(&w)
+		io.WriteString(w, "OK")
+	}).Methods("OPTIONS")
 
 	startServerTLS(r)
 }

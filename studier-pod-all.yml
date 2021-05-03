@@ -1,0 +1,58 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: studier-deployment
+spec:
+  selector:
+    matchLabels:
+      app: studier
+  replicas: 1 # tells deployment to run 2 pods matching the template
+  template:
+    metadata:
+      labels:
+        app: studier
+    spec:
+      containers:
+        - name: problem-service
+          image: cagejsn/problem-service.studier
+          env:
+          - name: ENV
+            value: "Hello from the environment"
+          args:
+          - tail
+          - "-f"
+          - /dev/null
+        - name: user-interaction-service
+          image: cagejsn/user-interaction-service.studier
+          env:
+          - name: ENV
+            value: "Hello from the environment"
+          args:
+          - tail
+          - "-f"
+          - /dev/null
+        - name: client
+          image: cagejsn/client.studier
+          ports:
+            - containerPort: 80
+        # - name: problem-recommendation-service
+        #   image: busybox
+        #   args:
+        #   - tail
+        #   - "-f"
+        #   - /dev/null
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: studier-service
+  labels:
+    run: studier-deployment
+spec:
+  type: NodePort
+  selector:
+    app: studier
+  ports:
+  - port: 80
+    targetPort: 80
+    nodePort: 30000

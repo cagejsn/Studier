@@ -61,10 +61,10 @@ export default Vue.extend({
       );
       Vue.set(this.answers, nextKey, "");
     },
-    answerChoicesChanged(newValue, oldValue) {
+    answerChoicesChanged(newValue: any, oldValue: any) {
       this.$store.dispatch("updateAnswers", newValue);
     },
-    correctAnswerChanged(newValue, oldValue){
+    correctAnswerChanged(newValue: any, oldValue: any){
       this.$store.dispatch("updateSolution", newValue);
     }
   },

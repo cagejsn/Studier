@@ -30,7 +30,7 @@ import {SolutionType} from '@/models/Problem'
 export default Vue.extend({
   data: () => ({
     SolutionType,
-    solutionType: SolutionType.TEXT_SOLUTION,
+    solutionType: SolutionType.NO_EXPLANATION,
   }),
 
   watch: {
