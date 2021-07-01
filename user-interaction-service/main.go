@@ -232,6 +232,33 @@ func main() {
 		io.WriteString(w, "OK")
 	}).Methods("OPTIONS")
 
+	r.HandleFunc("/sample-content", func(w http.ResponseWriter, r *http.Request) {
+
+		//TODO build this with gorilla
+		queryParams := r.URL.Query()
+		sampleContentType := queryParams.Get("sampleContentType")
+		log.Print("found sampleContentType", sampleContentType)
+		if sampleContentType == "" {
+			log.Panic("No sampleContentType")
+		}
+
+		userID := queryParams.Get("userID")
+		log.Print("found userID", userID)
+		if userID == "" {
+			log.Panic("No userID")
+		}
+
+		sC, _ := getSampleContentWithTypeForUser(sampleContentType, userID)
+		v, err := json.Marshal(sC)
+		if err != nil {
+			io.WriteString(w, "INTERNAL SERVER ERROR")
+			log.Panic(err)
+		}
+
+		enableCors(&w)
+		io.WriteString(w, string(v))
+	}).Methods("GET")
+
 	startServerTLS(r)
 }
 

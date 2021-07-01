@@ -50,7 +50,7 @@ export default Vue.extend({
       return this.$store.getters["getAnswers"];
     },
     answersEntries() {
-      return Object.entries((this as any).answers); 
+      return Object.entries((this as any).answers);
     }
   },
 

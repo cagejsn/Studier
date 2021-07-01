@@ -59,7 +59,6 @@ export default Vue.extend({
     // if(this.$store.state.openProblem.type){
     //   this.statementType = this.$store.state.openProblem.type.statementType
     // }
-
   },
   components: {
     EditImageStatementTab,

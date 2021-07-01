@@ -84,6 +84,8 @@ func main() {
 		io.WriteString(w, "OK")
 	}).Methods("OPTIONS")
 
+	registerProblemSetHandlers(r)
+
 	startServerTLS(r)
 }
 

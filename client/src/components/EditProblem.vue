@@ -27,7 +27,7 @@ import { getProblemById } from "../api/GetProblem";
 import EditStatement from "./EditProblem/1/EditStatement.vue";
 import EditAnswers from "./EditProblem/1/EditAnswers.vue";
 import { Problem } from "../models/Problem";
-import EditSolution from './EditProblem/1/EditSolution.vue';
+import EditSolution from "./EditProblem/1/EditSolution.vue";
 
 export default Vue.extend({
   computed: {

@@ -33,19 +33,18 @@ export enum AnswersType {
 
 export enum SolutionType {
   NO_EXPLANATION = "NO_EXPLANATION",
-  TEXT_EXPLANATION = "TEXT_EXPLANATION",
+  TEXT_EXPLANATION = "TEXT_EXPLANATION"
 }
 
 export interface ProblemSolution {
-  solution: any,
-  explanation?: string
+  solution: any;
+  explanation?: string;
 }
 
 export interface MultipleChoiceAnswerCandidates {
-  [letter: string]: string
+  [letter: string]: string;
 }
 
-type TrueFalseAnswer = boolean
+type TrueFalseAnswer = boolean;
 
-
-type TextEntryAnswer = string
+type TextEntryAnswer = string;

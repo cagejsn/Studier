@@ -1,9 +1,7 @@
 <template>
-    <div>True False</div>
+  <div>True False</div>
 </template>
 <script lang="ts">
-import Vue from 'vue'
-export default Vue.extend({
-    
-})
+import Vue from "vue";
+export default Vue.extend({});
 </script>

@@ -17,14 +17,14 @@ export default Vue.extend({
     }
   },
   data: () => ({
-    loading: true,
+    loading: true
   }),
 
   async created() {
-    getProblemById(this.id).then((problem) => {
+    getProblemById(this.id).then(problem => {
       this.loading = false;
-      this.$store.commit('setOpenProblem', problem.data)
+      this.$store.commit("setOpenProblem", problem.data);
     });
-  },
+  }
 });
 </script>

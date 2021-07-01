@@ -24,22 +24,21 @@ import Vue from "vue";
 
 import EditTextExplanationTab from "./EditTabs/EditTextExplanationTab.vue";
 
-
-import {SolutionType} from '@/models/Problem'
+import { SolutionType } from "@/models/Problem";
 
 export default Vue.extend({
   data: () => ({
     SolutionType,
-    solutionType: SolutionType.NO_EXPLANATION,
+    solutionType: SolutionType.NO_EXPLANATION
   }),
 
   watch: {
-    solutionType(newVal, oldVal){
+    solutionType(newVal, oldVal) {
       this.$store.commit("setProblemSolutionType", newVal);
     }
   },
   created() {
-    this.solutionType = this.$store.getters["getOpenProblem"].type.solutionType
+    this.solutionType = this.$store.getters["getOpenProblem"].type.solutionType;
   },
 
   components: {

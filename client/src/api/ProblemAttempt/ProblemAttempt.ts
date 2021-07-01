@@ -1,10 +1,15 @@
 import Axios from "axios";
-import { ProblemAttemptv1, ProblemAttemptResponsev1} from '@/models/ProblemAttempt'
+import {
+  ProblemAttemptv1,
+  ProblemAttemptResponsev1
+} from "@/models/ProblemAttempt";
 
 const axios = Axios.create({ baseURL: "https://localhost:8091" });
 
 export const createProblemAttempt = (problemId: string) => {
-  return axios.post<ProblemAttemptResponsev1>("/problem-attempt", {problemId});
+  return axios.post<ProblemAttemptResponsev1>("/problem-attempt", {
+    problemId
+  });
 };
 
 export const getProblemAttemptById = (id: string) => {
@@ -12,7 +17,10 @@ export const getProblemAttemptById = (id: string) => {
 };
 
 export const updateProblemAttempt = (problemAttempt: ProblemAttemptv1) => {
-  return axios.put<ProblemAttemptResponsev1>("/problem-attempt", problemAttempt);
+  return axios.put<ProblemAttemptResponsev1>(
+    "/problem-attempt",
+    problemAttempt
+  );
 };
 
 // export const bulkSaveProblemAttempt = (problemAttempts: [problemId: string]) => {

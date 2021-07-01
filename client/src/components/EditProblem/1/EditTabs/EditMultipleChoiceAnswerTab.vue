@@ -44,8 +44,7 @@ import { MultipleChoiceAnswerCandidates } from "@/models/Problem";
 export default Vue.extend({
   data: () => ({
     correctAnswer: "",
-    answers: {} as MultipleChoiceAnswerCandidates,
-  
+    answers: {} as MultipleChoiceAnswerCandidates
   }),
 
   computed: {
@@ -64,7 +63,7 @@ export default Vue.extend({
     answerChoicesChanged(newValue: any, oldValue: any) {
       this.$store.dispatch("updateAnswers", newValue);
     },
-    correctAnswerChanged(newValue: any, oldValue: any){
+    correctAnswerChanged(newValue: any, oldValue: any) {
       this.$store.dispatch("updateSolution", newValue);
     }
   },
@@ -73,8 +72,15 @@ export default Vue.extend({
     this.answers = this.$store.getters["getAnswers"] || {};
     this.correctAnswer = this.$store.getters["getSolution"];
 
-    (this as any).unwatchAnswerChoices = this.$watch("answers", this.answerChoicesChanged, { deep: true });
-    (this as any).unwatchCorrectAnswer = this.$watch("correctAnswer", this.correctAnswerChanged)
+    (this as any).unwatchAnswerChoices = this.$watch(
+      "answers",
+      this.answerChoicesChanged,
+      { deep: true }
+    );
+    (this as any).unwatchCorrectAnswer = this.$watch(
+      "correctAnswer",
+      this.correctAnswerChanged
+    );
   }
 });
 </script>
