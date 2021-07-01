@@ -1,8 +1,12 @@
 <template>
   <div>
-    <v-toolbar color="primary" dense>
-      <v-spacer>
-      </v-spacer>
+    <v-toolbar color="primary" dense >
+    <v-app-bar-nav-icon></v-app-bar-nav-icon>
+      <v-spacer></v-spacer>
+      <v-toolbar-title >
+        All Problems
+      </v-toolbar-title>
+      <v-spacer></v-spacer>
       <!-- <h1 @click="createNewProblem">Create a New Problem</h1> -->
       <v-toolbar-items>
         <v-menu bottom offset-y>
